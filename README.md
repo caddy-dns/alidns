@@ -21,7 +21,7 @@ To use this module for the ACME DNS challenge, [configure the ACME issuer in you
 			"provider": {
 				"name": "alidns",
 				"access_key_id":"YOUR_ALIYUN_ACCESS_KEY_ID",
-				"access_key_secret":"YOUR_ALIYUN_ACCESS_KEY_SECRET",
+				"access_key_secret":"YOUR_ALIYUN_ACCESS_KEY_SECRET"
 			}
 		}
 	}
@@ -35,7 +35,7 @@ tls {
 	dns alidns {
 		access_key_id {env.ALIYUN_ACCESS_KEY_ID}
 		access_key_secret {env.ALIYUN_ACCESS_KEY_SECRET}
-        }
+    }
 }
 ```
 
