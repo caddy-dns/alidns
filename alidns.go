@@ -24,8 +24,8 @@ func (Provider) CaddyModule() caddy.ModuleInfo {
 // UnmarshalCaddyfile sets up the DNS provider from Caddyfile tokens. Syntax:
 //
 // alidns {
-//     access_key_id <access_key_id>
-//     access_key_secret <access_key_secret>
+//     access_key_id "<access_key_id>"
+//     access_key_secret "<access_key_secret>"
 // }
 //
 func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
@@ -37,12 +37,16 @@ func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 		for nesting := d.Nesting(); d.NextBlock(nesting); {
 			switch d.Val() {
 			case "access_key_id":
-				p.Provider.AccKeyID = repl.ReplaceAll(d.Val(), "")
+				if d.NextArg() {
+					p.Provider.AccKeyID = repl.ReplaceAll(d.Val(), "")
+				}
 				if d.NextArg() {
 					return d.ArgErr()
 				}
 			case "access_key_secret":
-				p.Provider.AccKeySecret = repl.ReplaceAll(d.Val(), "")
+				if d.NextArg() {
+					p.Provider.AccKeySecret = repl.ReplaceAll(d.Val(), "")
+				}
 				if d.NextArg() {
 					return d.ArgErr()
 				}

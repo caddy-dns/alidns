@@ -39,7 +39,7 @@ tls {
 }
 ```
 
-You can replace `{env.ALIYUN_ACCESS_KEY_ID}`,`{env.ALIYUN_ACCESS_KEY_SECRET}` with the actual auth token if you prefer to put it directly in your config instead of an environment variable.
+You can replace `{env.ALIYUN_ACCESS_KEY_ID}`,`{env.ALIYUN_ACCESS_KEY_SECRET}` with the actual auth token in the `""` if you prefer to put it directly in your config instead of an environment variable.
 
 
 ## Authenticating
