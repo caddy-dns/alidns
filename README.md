@@ -31,6 +31,17 @@ To use this module for the ACME DNS challenge, [configure the ACME issuer in you
 or with the Caddyfile:
 
 ```
+# globally
+
+dns alidns {
+  access_key_id {env.ALIYUN_ACCESS_KEY_ID}
+  access_key_secret {env.ALIYUN_ACCESS_KEY_SECRET}
+}
+```
+
+```
+# one site
+
 tls {
   dns alidns {
     access_key_id {env.ALIYUN_ACCESS_KEY_ID}
