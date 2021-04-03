@@ -13,29 +13,40 @@ dns.providers.alidns
 
 To use this module for the ACME DNS challenge, [configure the ACME issuer in your Caddy JSON](https://caddyserver.com/docs/json/apps/tls/automation/policies/issuer/acme/) like so:
 
-```
+```json
 {
-	"module": "acme",
-	"challenges": {
-		"dns": {
-			"provider": {
-				"name": "alidns",
-				"access_key_id":"YOUR_ALIYUN_ACCESS_KEY_ID",
-				"access_key_secret":"YOUR_ALIYUN_ACCESS_KEY_SECRET"
-			}
-		}
-	}
+  "module": "acme",
+  "challenges": {
+    "dns": {
+      "provider": {
+	"name": "alidns",
+	"access_key_id":"YOUR_ALIYUN_ACCESS_KEY_ID",
+	"access_key_secret":"YOUR_ALIYUN_ACCESS_KEY_SECRET"
+      }
+    }
+  }
 }
 ```
 
 or with the Caddyfile:
 
 ```
+# globally
+
+acme_dns alidns {
+  access_key_id {env.ALIYUN_ACCESS_KEY_ID}
+  access_key_secret {env.ALIYUN_ACCESS_KEY_SECRET}
+}
+```
+
+```
+# one site
+
 tls {
-	dns alidns {
-		access_key_id {env.ALIYUN_ACCESS_KEY_ID}
-		access_key_secret {env.ALIYUN_ACCESS_KEY_SECRET}
-    }
+  dns alidns {
+    access_key_id {env.ALIYUN_ACCESS_KEY_ID}
+    access_key_secret {env.ALIYUN_ACCESS_KEY_SECRET}
+  }
 }
 ```
 

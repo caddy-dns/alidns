@@ -21,6 +21,15 @@ func (Provider) CaddyModule() caddy.ModuleInfo {
 	}
 }
 
+// Before using the provider config, resolve placeholders in the API token.
+// Implements caddy.Provisioner.
+func (p *Provider) Provision(ctx caddy.Context) error {
+	repl := caddy.NewReplacer()
+	p.Provider.AccKeyID = repl.ReplaceAll(p.Provider.AccKeyID, "")
+	p.Provider.AccKeySecret = repl.ReplaceAll(p.Provider.AccKeySecret, "")
+	return nil
+}
+
 // UnmarshalCaddyfile sets up the DNS provider from Caddyfile tokens. Syntax:
 //
 // alidns {
@@ -29,7 +38,6 @@ func (Provider) CaddyModule() caddy.ModuleInfo {
 // }
 //
 func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
-	repl := caddy.NewReplacer()
 	for d.Next() {
 		if d.NextArg() {
 			return d.ArgErr()
@@ -38,14 +46,14 @@ func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 			switch d.Val() {
 			case "access_key_id":
 				if d.NextArg() {
-					p.Provider.AccKeyID = repl.ReplaceAll(d.Val(), "")
+					p.Provider.AccKeyID = d.Val()
 				}
 				if d.NextArg() {
 					return d.ArgErr()
 				}
 			case "access_key_secret":
 				if d.NextArg() {
-					p.Provider.AccKeySecret = repl.ReplaceAll(d.Val(), "")
+					p.Provider.AccKeySecret = d.Val()
 				}
 				if d.NextArg() {
 					return d.ArgErr()
@@ -61,5 +69,8 @@ func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 	return nil
 }
 
-// Interface guard
-var _ caddyfile.Unmarshaler = (*Provider)(nil)
+// Interface guards
+var (
+	_ caddyfile.Unmarshaler = (*Provider)(nil)
+	_ caddy.Provisioner     = (*Provider)(nil)
+)
