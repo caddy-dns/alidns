@@ -14,8 +14,6 @@ dns.providers.alidns
 To use this module for the ACME DNS challenge, [configure the ACME issuer in your Caddy JSON](https://caddyserver.com/docs/json/apps/tls/automation/policies/issuer/acme/) like so:
 
 ```json
-{
-  "module": "acme",
   "challenges": {
     "dns": {
       "provider": {
@@ -25,7 +23,6 @@ To use this module for the ACME DNS challenge, [configure the ACME issuer in you
       }
     }
   }
-}
 ```
 
 or with the Caddyfile:
