@@ -4,7 +4,7 @@ go 1.22.3
 
 require (
 	github.com/caddyserver/caddy/v2 v2.9.1
-	github.com/libdns/alidns v1.0.4
+	github.com/libdns/alidns v1.0.4-libdns.v1.beta1
 )
 
 require (
@@ -18,7 +18,7 @@ require (
 	github.com/google/pprof v0.0.0-20231212022811-ec68065c825e // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.9 // indirect
-	github.com/libdns/libdns v0.2.2 // indirect
+	github.com/libdns/libdns v1.0.0-beta.1 // indirect
 	github.com/mholt/acmez/v3 v3.0.0 // indirect
 	github.com/miekg/dns v1.1.62 // indirect
 	github.com/onsi/ginkgo/v2 v2.13.2 // indirect
