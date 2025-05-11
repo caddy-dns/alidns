@@ -4,7 +4,7 @@ go 1.22.3
 
 require (
 	github.com/caddyserver/caddy/v2 v2.9.1
-	github.com/libdns/alidns v1.0.4-libdns.v1.beta1
+	github.com/libdns/alidns v1.0.5-libdns.v1.beta1
 )
 
 require (
