@@ -25,18 +25,20 @@ func (Provider) CaddyModule() caddy.ModuleInfo {
 // Implements caddy.Provisioner.
 func (p *Provider) Provision(ctx caddy.Context) error {
 	repl := caddy.NewReplacer()
-	p.Provider.AccKeyID = repl.ReplaceAll(p.Provider.AccKeyID, "")
-	p.Provider.AccKeySecret = repl.ReplaceAll(p.Provider.AccKeySecret, "")
+	p.Provider.AccessKeyID = repl.ReplaceAll(p.Provider.AccessKeyID, "")
+	p.Provider.AccessKeySecret = repl.ReplaceAll(p.Provider.AccessKeySecret, "")
+	p.Provider.SecurityToken = repl.ReplaceAll(p.SecurityToken, "")
 	return nil
 }
 
 // UnmarshalCaddyfile sets up the DNS provider from Caddyfile tokens. Syntax:
 //
-// alidns {
-//     access_key_id "<access_key_id>"
-//     access_key_secret "<access_key_secret>"
-// }
-//
+//	alidns {
+//	    access_key_id "<access_key_id>"
+//	    access_key_secret "<access_key_secret>"
+//		region_id "<region_id,defaults to 'cn-hangzhou' if empty>"
+//	    security_token "<security_token, if you use the STS authorization it's required by aliyun>"
+//	}
 func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 	for d.Next() {
 		if d.NextArg() {
@@ -46,14 +48,28 @@ func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 			switch d.Val() {
 			case "access_key_id":
 				if d.NextArg() {
-					p.Provider.AccKeyID = d.Val()
+					p.Provider.AccessKeyID = d.Val()
 				}
 				if d.NextArg() {
 					return d.ArgErr()
 				}
 			case "access_key_secret":
 				if d.NextArg() {
-					p.Provider.AccKeySecret = d.Val()
+					p.Provider.AccessKeySecret = d.Val()
+				}
+				if d.NextArg() {
+					return d.ArgErr()
+				}
+			case "region_id":
+				if d.NextArg() {
+					p.Provider.RegionID = d.Val()
+				}
+				if d.NextArg() {
+					return d.ArgErr()
+				}
+			case "security_token":
+				if d.NextArg() {
+					p.Provider.SecurityToken = d.Val()
 				}
 				if d.NextArg() {
 					return d.ArgErr()
@@ -63,7 +79,7 @@ func (p *Provider) UnmarshalCaddyfile(d *caddyfile.Dispenser) error {
 			}
 		}
 	}
-	if p.AccKeyID == "" || p.AccKeySecret == "" {
+	if p.AccessKeyID == "" || p.AccessKeySecret == "" {
 		return d.Err("AccessKeyID or AccessKeySecret is empty")
 	}
 	return nil

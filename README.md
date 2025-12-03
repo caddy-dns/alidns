@@ -1,7 +1,7 @@
 Alibaba Cloud DNS (AliDNS) module for Caddy
 ===========================
 
-This package contains a DNS provider module for [Caddy](https://github.com/caddyserver/caddy). It can be used to manage DNS records with Alibaba Cloud (as is Aliyun or ALIYUN) accounts.
+This package contains a DNS provider module for [Caddy](https://github.com/caddyserver/caddy). It can be used to manage DNS records with Alibaba Cloud (as is Aliyun,aliyun or ALIYUN) accounts.
 
 ## Caddy module name
 
@@ -19,9 +19,9 @@ To use this module for the ACME DNS challenge, [configure the ACME issuer in you
   "challenges": {
     "dns": {
       "provider": {
-	"name": "alidns",
-	"access_key_id":"YOUR_ALIYUN_ACCESS_KEY_ID",
-	"access_key_secret":"YOUR_ALIYUN_ACCESS_KEY_SECRET"
+        "name": "alidns",
+        "access_key_id":"YOUR_ALIYUN_ACCESS_KEY_ID",
+        "access_key_secret":"YOUR_ALIYUN_ACCESS_KEY_SECRET"
       }
     }
   }
@@ -50,8 +50,49 @@ tls {
 }
 ```
 
-You can replace `{env.ALIYUN_ACCESS_KEY_ID}`,`{env.ALIYUN_ACCESS_KEY_SECRET}` with the actual auth token in the `""` if you prefer to put it directly in your config instead of an environment variable.
+If you have `SecurityToken` for aliyun's STS authorization you can configure like:
 
+```json
+{
+  "module": "acme",
+  "challenges": {
+    "dns": {
+      "provider": {
+        "name": "alidns",
+        "access_key_id":"YOUR_ALIYUN_ACCESS_KEY_ID",
+        "access_key_secret":"YOUR_ALIYUN_ACCESS_KEY_SECRET",
+        "security_token": "YOU_ALIYUN_SECURITY_TOKEN"
+      }
+    }
+  }
+}
+```
+
+or with the Caddyfile:
+
+```
+# globally
+
+acme_dns alidns {
+  access_key_id {env.ALIYUN_ACCESS_KEY_ID}
+  access_key_secret {env.ALIYUN_ACCESS_KEY_SECRET}
+  security_token {env.ALIYUN_SECURITY_TOKEN}
+}
+```
+
+```
+# one site
+
+tls {
+  dns alidns {
+    access_key_id {env.ALIYUN_ACCESS_KEY_ID}
+    access_key_secret {env.ALIYUN_ACCESS_KEY_SECRET}
+    security_token {env.ALIYUN_SECURITY_TOKEN}
+  }
+}
+```
+
+You can replace `{env.ALIYUN_ACCESS_KEY_ID}`,`{env.ALIYUN_ACCESS_KEY_SECRET}`,`{env.ALIYUN_SECURITY_TOKEN}` with the actual auth token in the `""` if you prefer to put it directly in your config instead of an environment variable.
 
 ## Authenticating
 
